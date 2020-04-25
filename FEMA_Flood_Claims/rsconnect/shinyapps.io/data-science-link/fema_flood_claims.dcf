@@ -5,6 +5,8 @@ account: data-science-link
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2182194
-bundleId: 3062004
+bundleId: 3064462
 url: https://data-science-link.shinyapps.io/fema_flood_claims/
-when: 1587773137.70278
+when: 1587843792.37218
+asMultiple: FALSE
+asStatic: FALSE

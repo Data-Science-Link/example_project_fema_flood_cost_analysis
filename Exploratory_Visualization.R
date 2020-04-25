@@ -6,7 +6,7 @@ library(ggplot2)
 library(tidyr)
 
 setwd('/Users/michaellink/Desktop/__NYCDSA/_Projects/Shiny/fema_claims_new')
-load(file = "./shiny_app/data/processed_data.Rdata")
+load(file = "./FEMA_Flood_Claims/processed_data.Rdata")
 
 #GGplot specifications
 title_text_sz = 18
@@ -130,6 +130,21 @@ GG_Accumulation_for_Nation =
         axis.title=element_text(size = axis_title_sz,face="bold"))
 GG_Accumulation_for_Nation #ADD DOTS ON THE LINE FOR WHEN MAJOR STORMS HAPPENED
 #PRE AND POST KATRINA COMPARISON
+
+#### GEOM_AREA ####
+# Creating an Accumlation of claim $ plot for whole country with geom_area instead
+GG_Accumulation_for_Nation_Geom_Area = 
+  Accumulate_DF %>% 
+  group_by(., state, yearofloss) %>% 
+  summarise(., accumulated_loss = sum(accumulated_loss)) %>% 
+  ggplot(., aes(x = yearofloss, y = accumulated_loss, fill = state)) +
+  geom_area(show.legend = FALSE) + 
+  scale_y_continuous(labels = scales::comma) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+        axis.text=element_text(size = axis_text_sz),
+        axis.title=element_text(size = axis_title_sz,face="bold"))
+GG_Accumulation_for_Nation_Geom_Area
 
 # Creating Standardized plot for accumulation for all 50 states to see if line type (log, linear, exponential) is categorical
 GG_Standardized_Accumulation = 

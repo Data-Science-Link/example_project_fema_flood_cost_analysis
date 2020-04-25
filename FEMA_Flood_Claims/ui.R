@@ -15,26 +15,56 @@ dashboardPage(
                             title = "", id = "tabset1", width = '100%',
                             
                             tabPanel(h3("Start Here"), 
-                                     "First tab content"),
+                                     h3(START_HERE_TEXT_pt1),
+                                     br(),
+                                     h3(START_HERE_TEXT_pt2)),
                             
                             tabPanel(h3("Our Nation"), 
-                                     sliderInput("nation_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2018, value = c(1970,2019)),
-                                     radioButtons("nation_radio", label = h3("Geographic Region"), choices = list("States" = 1, "Region" = 2), selected = 1),
-                                     plotlyOutput("GG_Total_Nation_Summed_Claims"),
+                                     fluidRow(
+                                         column(2, sliderInput("nation_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
+                                         column(2, radioButtons("nation_radio", label = h3("Geographic Region"), choices = list("States" = 1, "Region" = 2), selected = 1))
+                                     ),
+                                     h3(OUR_NATION_TEXT_pt1),
+                                     h3(OUR_NATION_TEXT_pt2),
+                                     h3(OUR_NATION_TEXT_pt3),
+                                     h3(OUR_NATION_TEXT_pt4),
                                      plotlyOutput("GG_Accumulation_for_Nation"),
+                                     plotlyOutput("GG_Total_Nation_Summed_Claims"),
                                      plotlyOutput('GG_Summed_Claim_Cost_by_Top_10_States')
                                      ),
                             
                             tabPanel(h3("Our States"),
-                                     sliderInput("state_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2018, value = c(1970,2019)),
-                                     selectizeInput("selected",
-                                                    "State Acronym",
-                                                    State_Names),
-                                     plotlyOutput("GG_Total_State_Summed_Claims"),
-                                     plotlyOutput("GG_Accumulation_for_State")
+                                     fluidRow(
+                                         column(2, sliderInput("state_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
+                                         column(2, selectizeInput("selected", "State Acronym", State_Names))
+                                     ),
+                                     h3(OUR_STATES_TEXT_pt1),
+                                     h3(OUR_STATES_TEXT_pt2),
+                                     h3(OUR_STATES_TEXT_pt3),
+                                     h3(OUR_STATES_TEXT_pt4),
+                                     plotlyOutput("GG_Accumulation_for_State"),
+                                     plotlyOutput("GG_Total_State_Summed_Claims")
                             ),
                             
-                            tabPanel(h3("Our Story"), "Tab content 4")
+                            tabPanel(h3("Our Story"), 
+                                     h3(OUR_STORY_pt1),
+                                     br(),
+                                     h3(OUR_STORY_pt2),
+                                     br(),
+                                     h3(OUR_STORY_pt3),
+                                     br(),
+                                     h3(OUR_STORY_pt4),
+                                     br(),
+                                     h3(OUR_STORY_pt5),
+                                     br(),
+                                     h3(OUR_STORY_pt6),
+                                     br(),
+                                     h3(OUR_STORY_pt7),
+                                     br(),
+                                     h3(OUR_STORY_pt8),
+                                     br(),
+                                     h3(OUR_STORY_pt9)
+                                     )
                         )
                     )),
             tabItem(tabName = 'data',
