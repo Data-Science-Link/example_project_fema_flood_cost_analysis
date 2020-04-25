@@ -1,0 +1,10 @@
+name: fema_flood_claims
+title:
+username:
+account: data-science-link
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2182194
+bundleId: 3062004
+url: https://data-science-link.shinyapps.io/fema_flood_claims/
+when: 1587773137.70278
