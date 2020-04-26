@@ -10,6 +10,21 @@ setwd('/Users/michaellink/Desktop/__NYCDSA/_Projects/Shiny/fema_claims_new')
 
 raw.df = read.csv('./data/openFEMA_claims20190831.csv')
 
+US_abbreviations <- read.csv("./data/US_abbreviations.csv", stringsAsFactors = FALSE)
+US_abbreviations = rename(US_abbreviations, state = State) #rename for later join which is case sensitive
+
+census_regions <- read.csv("./data/census_regions.csv", stringsAsFactors = FALSE)
+census_regions = census_regions %>%
+  mutate(., region_number = sapply(strsplit(census_regions$region_num," "), `[`, 2)) %>%
+  mutate(., region_name = sapply(strsplit(census_regions$region_num," "), `[`, 3)) %>%
+  mutate(., division_number = sapply(strsplit(census_regions$division_num," "), `[`, 2)) %>%
+  mutate(., division_name = substr(census_regions$division_num, start = 12, stop = 1000)) %>% 
+  select(., state, region_name, division_name)
+
+Regions = 
+  left_join(US_abbreviations, census_regions, by = 'state') %>% 
+  select(., state = Code, state_name = state, region_name, division_name)
+
 # Creating annual version of raw.df with most important cost columns
 filter.raw.df = 
   raw.df %>% 
@@ -28,15 +43,20 @@ filter.raw.df =
   mutate(., floodzone = ifelse(str_detect(floodzone, "D"), '~100_yr', floodzone)) %>%
   mutate(., floodzone = ifelse(floodzone == "", "Not Listed",floodzone)) %>% 
   mutate(., floodzone = as.factor(floodzone)) %>% 
+  left_join(., Regions, by = 'state') %>% 
   filter(., floodzone != "OOO") %>% 
   filter(., !is.na(state), state != "", !is.na(yearofloss), !is.na(amountpaidtotal)) %>% 
+  left_join(., )
   group_by(., state, yearofloss, floodzone) %>% 
   summarise(., amountpaidtotal = sum(amountpaidtotal))
 
+FIPS_County_Codes = 
+  read.csv('./data/FIPS_County_Codes.csv') %>% 
+  select(., countycode = FIPS, Name)
 
-
-US_abbreviations <- read.csv("/Users/michaellink/Documents/catholicism/us_census/US_abbreviations.csv", stringsAsFactors = FALSE)
-US_abbreviations = rename(US_abbreviations, state = State) #rename for later join which is case sensitive
+filter.raw.df.counties = 
+  raw.df %>% 
+  left_join(., FIPS_County_Codes, by = 'countycode')
 
 State_Names = 
   filter.raw.df %>% 
