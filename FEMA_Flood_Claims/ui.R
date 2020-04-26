@@ -1,28 +1,38 @@
 
 dashboardPage(
-    dashboardHeader(title = 'FEMA Flood Claims'),
+    skin = "green",
+    dashboardHeader(title = 'FEMA Flood Claims', titleWidth = 350),
     dashboardSidebar(
+        width = 350,
         sidebarMenu(
-            menuItem('Dashboard', tabName = 'dashboard', icon = icon('map')),
-            menuItem('Data', tabName = 'data', icon = icon('database'))
+            menuItem(h3('Dashboard'), tabName = 'dashboard'), #, icon = icon('map')
+            menuItem(h3('Data'), tabName = 'data') #, icon = icon('database')
         )
     ),
     dashboardBody(
+        tags$head(
+            tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+        ),
+        tags$body(
+            tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+        ),
         tabItems(
             tabItem(tabName = 'dashboard', 
                     fluidRow(
                         tabBox(
-                            title = "", id = "tabset1", width = '100%',
+                            title = "", id = "tabset1", width = '100%', 
                             
                             tabPanel(h3("Start Here"), 
                                      h3(START_HERE_TEXT_pt1),
                                      br(),
-                                     h3(START_HERE_TEXT_pt2)),
+                                     h3(START_HERE_TEXT_pt2),
+                                     status = 'success'
+                                     ),
                             
                             tabPanel(h3("Our Nation"), 
                                      fluidRow(
                                          column(2, sliderInput("nation_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
-                                         column(2, radioButtons("nation_radio", label = h3("Filter"), choices = list("States" = 0, "Flood Zone" = 1), selected = 0))
+                                         column(2, radioButtons("nation_radio", label = h3("Filter"), choices = list("States" = 0, "Flood Zone" = 1, 'Census Region' = 2, 'Census Division' = 3), selected = 2))
                                      ),
                                      h3(OUR_NATION_TEXT_pt1),
                                      h3(OUR_NATION_TEXT_pt2),
@@ -36,6 +46,7 @@ dashboardPage(
                             tabPanel(h3("Our States"),
                                      fluidRow(
                                          column(2, sliderInput("state_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
+                                         column(2, radioButtons("state_radio", label = h3("Filter"), choices = list("Counties" = 0, "Flood Zone" = 1), selected = 1)),
                                          column(2, selectizeInput("selected", "State Acronym", State_Names))
                                      ),
                                      h3(OUR_STATES_TEXT_pt1),
@@ -43,7 +54,8 @@ dashboardPage(
                                      h3(OUR_STATES_TEXT_pt3),
                                      h3(OUR_STATES_TEXT_pt4),
                                      plotlyOutput("GG_Accumulation_for_State"),
-                                     plotlyOutput("GG_Total_State_Summed_Claims")
+                                     plotlyOutput("GG_Total_State_Summed_Claims"),
+                                     plotlyOutput('GG_Summed_Claim_Cost_by_Top_10_Counties')
                             ),
                             
                             tabPanel(h3("Our Story"), 
