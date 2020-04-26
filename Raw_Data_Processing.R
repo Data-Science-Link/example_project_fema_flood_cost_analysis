@@ -116,6 +116,12 @@ State_Names =
   select(., state)
 State_Names = State_Names[['state']]
 
+filter.raw.df.counties %>% 
+  filter(., state == input$selected) %>% 
+  group_by(., yearofloss) %>% 
+  summarise(., accumulated_loss = sum(accumulated_loss))
+
+
 County_Names = 
   filter.raw.df.counties %>% 
   filter(., county_name != "") %>% 

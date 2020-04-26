@@ -20,7 +20,7 @@ START_HERE_TEXT_pt2 =
 OUR_NATION_TEXT_pt1 = 
   'This tab offers three metrics:'
 OUR_NATION_TEXT_pt2 = 
-  '1. Accumulated Claims - how much money has been claimed to date (i.e. by 2019 70 billion in total has been paid on flood claims)'
+  '1. Accumulated Claims - how much money has been claimed to date'
 OUR_NATION_TEXT_pt3 = 
   '2. Annual Claims - which years were the most expensive and why'
 OUR_NATION_TEXT_pt4 = 
@@ -30,7 +30,7 @@ OUR_STATES_TEXT_pt1 =
 OUR_STATES_TEXT_pt2 = 
   '1. Accumulated Claims - how much money has been claimed to date'
 OUR_STATES_TEXT_pt3 = 
-  '2. Annual Claims- which years were the most expensive and why'
+  '2. Annual Claims- which years were the most expensive'
 OUR_STATES_TEXT_pt4 = 
   '3. Summed Flood Claims - which cities have the most water on their hands'
 OUR_STORY_pt1 = 

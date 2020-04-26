@@ -113,10 +113,11 @@ shinyServer(function(input, output) {
         ggplotly(
         Accumulate_DF %>% 
             filter(., yearofloss >= input$state_slider[1], yearofloss <= input$state_slider[2], state == input$selected) %>% 
-            group_by(., yearofloss) %>% 
-            summarise(., accumulated_loss = sum(accumulated_loss)) %>% 
-            ggplot(., aes(x = yearofloss, y = accumulated_loss)) +
-            geom_line() + 
+            group_by(., yearofloss, floodzone) %>% 
+            summarise(., Accumulated_Claims = sum(accumulated_loss)) %>% 
+            ggplot(., aes(x = yearofloss, y = Accumulated_Claims, fill = floodzone)) +
+            geom_area() + 
+            labs(title = 'Accumulated Claims', x = '', y = '$') + 
             scale_y_continuous(labels = scales::comma) +
             theme_bw() + 
             theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),

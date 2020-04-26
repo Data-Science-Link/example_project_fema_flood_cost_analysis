@@ -23,9 +23,9 @@ dashboardPage(
                             title = "", id = "tabset1", width = '100%', 
                             
                             tabPanel(h3("Start Here"), 
-                                     h3(START_HERE_TEXT_pt1),
+                                     h4(START_HERE_TEXT_pt1),
                                      br(),
-                                     h3(START_HERE_TEXT_pt2),
+                                     h4(START_HERE_TEXT_pt2),
                                      status = 'success'
                                      ),
                             
@@ -34,10 +34,10 @@ dashboardPage(
                                          column(2, sliderInput("nation_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
                                          column(2, radioButtons("nation_radio", label = h3("Filter"), choices = list("States" = 0, "Flood Zone" = 1, 'Census Region' = 2, 'Census Division' = 3), selected = 2))
                                      ),
-                                     h3(OUR_NATION_TEXT_pt1),
-                                     h3(OUR_NATION_TEXT_pt2),
-                                     h3(OUR_NATION_TEXT_pt3),
-                                     h3(OUR_NATION_TEXT_pt4),
+                                     h4(OUR_NATION_TEXT_pt1),
+                                     h4(OUR_NATION_TEXT_pt2),
+                                     h4(OUR_NATION_TEXT_pt3),
+                                     h4(OUR_NATION_TEXT_pt4),
                                      plotlyOutput("GG_Accumulation_for_Nation"),
                                      plotlyOutput("GG_Total_Nation_Summed_Claims"),
                                      plotlyOutput('GG_Summed_Claim_Cost_by_Top_10_States')
@@ -46,36 +46,36 @@ dashboardPage(
                             tabPanel(h3("Our States"),
                                      fluidRow(
                                          column(2, sliderInput("state_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
-                                         column(2, radioButtons("state_radio", label = h3("Filter"), choices = list("Counties" = 0, "Flood Zone" = 1), selected = 1)),
+                                         column(2, radioButtons("state_radio", label = h3("Filter"), choices = list("Flood Zone" = 0), selected = 0)),
                                          column(2, selectizeInput("selected", "State Acronym", State_Names))
                                      ),
-                                     h3(OUR_STATES_TEXT_pt1),
-                                     h3(OUR_STATES_TEXT_pt2),
-                                     h3(OUR_STATES_TEXT_pt3),
-                                     h3(OUR_STATES_TEXT_pt4),
+                                     h4(OUR_STATES_TEXT_pt1),
+                                     h4(OUR_STATES_TEXT_pt2),
+                                     h4(OUR_STATES_TEXT_pt3),
+                                     h4(OUR_STATES_TEXT_pt4),
                                      plotlyOutput("GG_Accumulation_for_State"),
                                      plotlyOutput("GG_Total_State_Summed_Claims"),
                                      plotlyOutput('GG_Summed_Claim_Cost_by_Top_10_Counties')
                             ),
                             
                             tabPanel(h3("Our Story"), 
-                                     h3(OUR_STORY_pt1),
+                                     h4(OUR_STORY_pt1),
                                      br(),
-                                     h3(OUR_STORY_pt2),
+                                     h4(OUR_STORY_pt2),
                                      br(),
-                                     h3(OUR_STORY_pt3),
+                                     h4(OUR_STORY_pt3),
                                      br(),
-                                     h3(OUR_STORY_pt4),
+                                     h4(OUR_STORY_pt4),
                                      br(),
-                                     h3(OUR_STORY_pt5),
+                                     h4(OUR_STORY_pt5),
                                      br(),
-                                     h3(OUR_STORY_pt6),
+                                     h4(OUR_STORY_pt6),
                                      br(),
-                                     h3(OUR_STORY_pt7),
+                                     h4(OUR_STORY_pt7),
                                      br(),
-                                     h3(OUR_STORY_pt8),
+                                     h4(OUR_STORY_pt8),
                                      br(),
-                                     h3(OUR_STORY_pt9)
+                                     h4(OUR_STORY_pt9)
                                      )
                         )
                     )),
