@@ -64,10 +64,19 @@ dashboardPage(
                                      h4(OUR_STORY_pt2),
                                      br(),
                                      h4(OUR_STORY_pt3),
+                                     fluidRow(
+                                         column(6, plotlyOutput('GG_Amount_PD')),
+                                         column(6,plotlyOutput('GG_Avg_PD_Losses'))
+                                     ),
                                      br(),
                                      h4(OUR_STORY_pt4),
+                                     fluidRow(
+                                         column(1, radioButtons("regression", label = h3("Line Type"), choices = list("Linear" = 0, "Exponential" = 1, "Quadratic" = 2), selected = 1)),
+                                         column(11, plotlyOutput('GG_Accumulation_for_Nation_Regression'),)
+                                     ),
                                      br(),
                                      h4(OUR_STORY_pt5),
+                                     plotlyOutput('GG_Accumulation_for_Nation_Standardized'),
                                      br(),
                                      h4(OUR_STORY_pt6),
                                      br(),

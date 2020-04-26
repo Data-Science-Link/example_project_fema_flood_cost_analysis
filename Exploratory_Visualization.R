@@ -131,6 +131,47 @@ GG_Accumulation_for_Nation =
 GG_Accumulation_for_Nation #ADD DOTS ON THE LINE FOR WHEN MAJOR STORMS HAPPENED
 #PRE AND POST KATRINA COMPARISON
 
+# Creating an Accumlation of claim $ plot for whole country
+GG_Accumulation_for_Nation_Standardized = 
+  Accumulate_DF %>% 
+  group_by(., yearofloss) %>% 
+  summarise(., accumulated_loss = sum(accumulated_loss)/69751802599) %>% #total paid throughout program
+  ggplot(., aes(x = yearofloss, y = accumulated_loss)) +
+  geom_line() + 
+  scale_y_continuous(labels = scales::comma) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+        axis.text=element_text(size = axis_text_sz),
+        axis.title=element_text(size = axis_title_sz,face="bold"))
+GG_Accumulation_for_Nation_Standardized
+
+str(Accumulate_DF)
+
+alpha = 2.115946e+09
+beta = 7.445744e-02
+theta = -4.923348e+09
+
+#### Regression ####
+GG_Accumulation_for_Nation_Regression = 
+  Accumulate_DF %>% 
+  filter(., !is.na(yearofloss), !is.nan(yearofloss), yearofloss != Inf, yearofloss != -Inf, yearofloss != '') %>% 
+  group_by(., yearofloss) %>% 
+  summarise(., accumulated_loss = sum(accumulated_loss)) %>% 
+  mutate(., yearofloss = yearofloss - min(yearofloss)) %>% 
+  filter(., yearofloss > 0, accumulated_loss > 0) %>% 
+  ggplot(.) +
+  geom_point(aes(x = yearofloss, y = accumulated_loss)) + 
+  geom_line(colour = 'red', linetype = 1, aes(x = yearofloss, y = alpha*exp( as.numeric(beta) * yearofloss) + theta)) +
+  geom_smooth(colour = 'blue', size = 0.5, aes(x = yearofloss, y = accumulated_loss), method="lm", formula= (y ~ x), se=FALSE, linetype = 1) + 
+  geom_smooth(colour = 'green', size = 0.5, aes(x = yearofloss, y = accumulated_loss), method="lm", formula= (y ~ x + I(x^2) + I(x^3)), se=FALSE, linetype = 1) + 
+  scale_color_discrete(name = "Y series", labels = c("Y2", "Y1", "Y3")) + 
+  scale_y_continuous(labels = scales::comma) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+        axis.text=element_text(size = axis_text_sz),
+        axis.title=element_text(size = axis_title_sz,face="bold"))
+GG_Accumulation_for_Nation_Regression
+
 #### GEOM_AREA ####
 # Creating an Accumlation of claim $ plot for whole country with geom_area state instead
 GG_Accumulation_for_Nation_Geom_Area = 
@@ -162,7 +203,7 @@ GG_Accumulation_for_Nation_Geom_Area_Flood_Zone
 
 # Creating Standardized plot for accumulation for all 50 states to see if line type (log, linear, exponential) is categorical
 GG_Standardized_Accumulation = 
-  Accumulate_DF_0_to_1 %>% 
+  str(unlist(Accumulate_DF_0_to_1))%>% 
   ggplot(., aes(x = yearofloss, y = standardized_accumulation, color = state)) +
   geom_line(show.legend = FALSE) +
   theme_bw() + 
@@ -205,5 +246,41 @@ GGvis_without_LA_TX <- gvisGeoChart(Sans_Top_2_Total_State_Summed_Claims, "state
                                                  resolution="provinces",
                                                  width=600, height=400))
 plot(GGvis_without_LA_TX)
+
+library(plotly)
+
+#### MAJOR_STORMS ####
+
+GG_Amount_PD = 
+  major_storms %>% 
+  ggplot(., aes(x = Year, y = Amount_PD, size = Amount_PD, text = paste0(Event, "<br>", Amount_PD), group = 1)) +
+  geom_point() +
+  labs(title = 'Paid Losses of Major Storms', x = '', y = '$') + 
+  scale_y_continuous(limits = c(0,2e+10), labels = scales::comma) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+        axis.text=element_text(size = axis_text_sz, face = 'bold'),
+        axis.title=element_text(size = axis_title_sz))
+ggplotly(GG_Amount_PD, tooltip = 'text')
+
+
+
+major_storms %>% 
+  ggplot(., aes(x = Year)) + geom_histogram()
+ggplotly()
+
+GG_Avg_PD_Losses = major_storms %>% 
+  ggplot(., aes(x = Year, y = Avg_PD_Losses, text = paste0(Event, "<br>", Avg_PD_Losses), group = 1)) +
+  geom_point() +
+  geom_smooth(method = loess, se = FALSE, formula = 'y ~ x') +
+  labs(title = 'Average Paid Losses of Major Storms', x = '', y = '$') + 
+  scale_y_continuous(labels = scales::comma) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+        axis.text=element_text(size = axis_text_sz, face = 'bold'),
+        axis.title=element_text(size = axis_title_sz))
+ggplotly(GG_Avg_PD_Losses, tooltip = "text")
+
+text = major_storms$Event
 
 

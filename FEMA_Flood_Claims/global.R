@@ -11,6 +11,10 @@ title_text_sz = 18
 axis_text_sz = 10
 axis_title_sz = 12
 
+alpha = 2.115946e+09
+beta = 7.445744e-02
+theta = -4.923348e+09
+
 load(file = "processed_data.Rdata")
 
 START_HERE_TEXT_pt1 = 

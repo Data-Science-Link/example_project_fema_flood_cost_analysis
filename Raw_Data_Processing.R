@@ -12,6 +12,8 @@ raw.df = read.csv('./data/openFEMA_claims20190831.csv')
 save(raw.df, file = '/Users/michaellink/Desktop/__NYCDSA/_Projects/rawDf.Rdata')
 load('/Users/michaellink/Desktop/__NYCDSA/_Projects/rawDf.Rdata')
 
+load('./FEMA_Flood_Claims/processed_data.Rdata')
+
 US_abbreviations <- read.csv("./data/US_abbreviations.csv", stringsAsFactors = FALSE)
 US_abbreviations = rename(US_abbreviations, state = State) #rename for later join which is case sensitive
 
@@ -227,6 +229,8 @@ major_storms =
   mutate(., Amount_PD = as.numeric(str_replace_all(Amount_PD, "[^[:alnum:]]", ""))) %>% 
   mutate(., Avg_PD_Losses = as.numeric(str_replace_all(Avg_PD_Losses, "[^[:alnum:]]", ""))) 
 
+
+
 save(State_Names,
      filter.raw.df,
      Accumulate_DF,
@@ -237,3 +241,4 @@ save(State_Names,
      file = "./FEMA_Flood_Claims/processed_data.Rdata")
 
 rm(list = ls())
+?ylim
