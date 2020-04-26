@@ -4,4 +4,8 @@ rsconnect::setAccountInfo(name='data-science-link',
                           secret='U11fts8KE2yf00kowgXoVwfkKIdWqFHhHjf8jvr5')
 
 library(rsconnect)
-rsconnect::deployApp('/Users/michaellink/Desktop/__NYCDSA/_Projects/Shiny/fema_claims_new/FEMA_Flood_Claims')
+rsconnect::deployApp('path to your shiny FOLDER')
+
+rsconnect::setAccountInfo(name='data-science-link',
+                          token='your token',
+                          secret='im not going to tell you my secret')

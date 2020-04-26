@@ -20,9 +20,23 @@ filter.raw.df =
            amountpaidonbuildingclaim +
            amountpaidoncontentsclaim +
            amountpaidonincreasedcostofcomplianceclaim) %>% 
+  mutate(., floodzone = gsub('[[:digit:]]+', '', floodzone)) %>% 
+  mutate(., floodzone = ifelse(str_detect(floodzone, "A") | str_detect(floodzone, "V"), '<100_yr', floodzone)) %>% 
+  mutate(., floodzone = ifelse(str_detect(floodzone, "B"), '<500_yr', floodzone)) %>%
+  mutate(., floodzone = ifelse(str_detect(floodzone, "X"), '~500_yr', floodzone)) %>%
+  mutate(., floodzone = ifelse(str_detect(floodzone, "C"), '>500_yr', floodzone)) %>%
+  mutate(., floodzone = ifelse(str_detect(floodzone, "D"), '~100_yr', floodzone)) %>%
+  mutate(., floodzone = ifelse(floodzone == "", "Not Listed",floodzone)) %>% 
+  mutate(., floodzone = as.factor(floodzone)) %>% 
+  filter(., floodzone != "OOO") %>% 
   filter(., !is.na(state), state != "", !is.na(yearofloss), !is.na(amountpaidtotal)) %>% 
-  group_by(., state, yearofloss) %>% 
+  group_by(., state, yearofloss, floodzone) %>% 
   summarise(., amountpaidtotal = sum(amountpaidtotal))
+
+
+
+US_abbreviations <- read.csv("/Users/michaellink/Documents/catholicism/us_census/US_abbreviations.csv", stringsAsFactors = FALSE)
+US_abbreviations = rename(US_abbreviations, state = State) #rename for later join which is case sensitive
 
 State_Names = 
   filter.raw.df %>% 
@@ -52,11 +66,18 @@ for (i in 1:10) {
 }
 
 # make the second for loop based on filter year<=i and group_by state ony
-Accumulate_DF = data.frame()
+Accumulate_DF = 
+  filter.raw.df %>% 
+  filter(., yearofloss <= i, state != "", !is.na(state), !is.na(yearofloss), !is.na(amountpaidtotal)) %>%
+  group_by(., state, floodzone) %>% 
+  summarise(., accumulated_loss = sum(amountpaidtotal)) %>% 
+  mutate(., yearofloss = 1990)
+Accumulate_DF = Accumulate_DF[0,]
+
 for (i in min(filter.raw.df$yearofloss):max(filter.raw.df$yearofloss)) {
   intermediate = filter.raw.df %>% 
     filter(., yearofloss <= i, state != "", !is.na(state), !is.na(yearofloss), !is.na(amountpaidtotal)) %>%
-    group_by(., state) %>% 
+    group_by(., state, floodzone) %>% 
     summarise(., accumulated_loss = sum(amountpaidtotal)) %>% 
     mutate(., yearofloss = i)
   

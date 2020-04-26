@@ -21,19 +21,36 @@ shinyServer(function(input, output) {
     
     output$GG_Accumulation_for_Nation<-renderPlotly({
         ggplotly(
-        Accumulate_DF %>% 
-            filter(., yearofloss >= input$nation_slider[1], yearofloss <= input$nation_slider[2]) %>% 
-            group_by(., state, yearofloss) %>% 
-            summarise(., Accumulated_Claims = sum(accumulated_loss)) %>% 
-            ggplot(., aes(x = yearofloss, y = Accumulated_Claims, fill = state)) +
-            geom_area(show.legend = FALSE) + 
-            labs(title = 'Accumulated Claims', x = '', y = '$') +
-            scale_y_continuous(labels = scales::comma) +
-            theme_bw() + 
-            theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
-                  axis.text=element_text(size = axis_text_sz, face = 'bold'),
-                  axis.title=element_text(size = axis_title_sz))
-        )
+                if (input$nation_radio == 0){
+                    Accumulate_DF %>% 
+                        filter(., yearofloss >= input$nation_slider[1], yearofloss <= input$nation_slider[2]) %>% 
+                        group_by(., state, yearofloss) %>% 
+                        summarise(., Accumulated_Claims = sum(accumulated_loss)) %>%
+                        ggplot(., aes(x = yearofloss, y = Accumulated_Claims, fill = state)) +
+                        geom_area(show.legend = FALSE) + 
+                        labs(title = 'Accumulated Claims', x = '', y = '$') +
+                        scale_y_continuous(labels = scales::comma) +
+                        theme_bw() + 
+                        theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+                              axis.text=element_text(size = axis_text_sz, face = 'bold'),
+                              axis.title=element_text(size = axis_title_sz))
+                } else if (input$nation_radio == 1) {
+                    Accumulate_DF %>% 
+                        filter(., yearofloss >= input$nation_slider[1], yearofloss <= input$nation_slider[2]) %>% 
+                        group_by(., floodzone, yearofloss) %>% 
+                        summarise(., Accumulated_Claims = sum(accumulated_loss)) %>%
+                        ggplot(., aes(x = yearofloss, y = Accumulated_Claims, fill = floodzone)) +
+                        geom_area(show.legend = FALSE) + 
+                        labs(title = 'Accumulated Claims', x = '', y = '$') +
+                        scale_y_continuous(labels = scales::comma) +
+                        theme_bw() + 
+                        theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+                              axis.text=element_text(size = axis_text_sz, face = 'bold'),
+                              axis.title=element_text(size = axis_title_sz))
+                } else {
+                        
+                    }
+                )
         })
     
     output$GG_Summed_Claim_Cost_by_Top_10_States<-renderPlotly({

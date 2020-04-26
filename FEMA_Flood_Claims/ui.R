@@ -22,7 +22,7 @@ dashboardPage(
                             tabPanel(h3("Our Nation"), 
                                      fluidRow(
                                          column(2, sliderInput("nation_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
-                                         column(2, radioButtons("nation_radio", label = h3("Geographic Region"), choices = list("States" = 1, "Region" = 2), selected = 1))
+                                         column(2, radioButtons("nation_radio", label = h3("Filter"), choices = list("States" = 0, "Flood Zone" = 1), selected = 0))
                                      ),
                                      h3(OUR_NATION_TEXT_pt1),
                                      h3(OUR_NATION_TEXT_pt2),

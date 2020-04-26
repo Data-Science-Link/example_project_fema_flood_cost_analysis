@@ -132,7 +132,7 @@ GG_Accumulation_for_Nation #ADD DOTS ON THE LINE FOR WHEN MAJOR STORMS HAPPENED
 #PRE AND POST KATRINA COMPARISON
 
 #### GEOM_AREA ####
-# Creating an Accumlation of claim $ plot for whole country with geom_area instead
+# Creating an Accumlation of claim $ plot for whole country with geom_area state instead
 GG_Accumulation_for_Nation_Geom_Area = 
   Accumulate_DF %>% 
   group_by(., state, yearofloss) %>% 
@@ -145,6 +145,20 @@ GG_Accumulation_for_Nation_Geom_Area =
         axis.text=element_text(size = axis_text_sz),
         axis.title=element_text(size = axis_title_sz,face="bold"))
 GG_Accumulation_for_Nation_Geom_Area
+
+# Creating an Accumlation of claim $ plot for whole country with geom_area flood zone instead
+GG_Accumulation_for_Nation_Geom_Area_Flood_Zone = 
+  Accumulate_DF %>% 
+  group_by(., floodzone, yearofloss) %>% 
+  summarise(., accumulated_loss = sum(accumulated_loss)) %>% 
+  ggplot(., aes(x = yearofloss, y = accumulated_loss, fill = floodzone)) +
+  geom_area(show.legend = FALSE) + 
+  scale_y_continuous(labels = scales::comma) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+        axis.text=element_text(size = axis_text_sz),
+        axis.title=element_text(size = axis_title_sz,face="bold"))
+GG_Accumulation_for_Nation_Geom_Area_Flood_Zone
 
 # Creating Standardized plot for accumulation for all 50 states to see if line type (log, linear, exponential) is categorical
 GG_Standardized_Accumulation = 
