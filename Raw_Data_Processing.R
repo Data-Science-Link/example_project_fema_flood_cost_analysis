@@ -178,29 +178,30 @@ for (i in min(filter.raw.df$yearofloss):max(filter.raw.df$yearofloss)) {
   Accumulate_DF = rbind(Accumulate_DF, intermediate)
 }
 
-# Accumulate_DF_Counties = 
-#   filter.raw.df.counties %>% 
-#   filter(., yearofloss == 1990, state != "", !is.na(state), !is.na(yearofloss), !is.na(amountpaidtotal)) %>%
-#   group_by(., state, floodzone, county_name) %>% 
-#   summarise(., accumulated_loss = sum(amountpaidtotal)) %>% 
-#   mutate(., yearofloss = 1990)
-# Accumulate_DF_Counties = Accumulate_DF_Counties[0,]
-# 
-# for (i in min(filter.raw.df.counties$yearofloss):max(filter.raw.df.counties$yearofloss)) {
-#   intermediate = filter.raw.df.counties %>% 
-#     filter(., yearofloss <= i, state != "", !is.na(state), !is.na(county_name), !is.na(yearofloss), !is.na(amountpaidtotal)) %>%
-#     group_by(., state, floodzone, county_name) %>% 
-#     summarise(., accumulated_loss = sum(amountpaidtotal)) %>% 
-#     mutate(., yearofloss = i)
-#   
-#   Accumulate_DF_Counties = rbind(Accumulate_DF_Counties, intermediate)
-# }
+# make the second for loop based on filter year<=i and group_by state ony
+Orig_Accumulate_DF = 
+  filter.raw.df %>% 
+  filter(., yearofloss <= 1990, state != "", !is.na(state), !is.na(yearofloss), !is.na(amountpaidtotal)) %>%
+  group_by(., state) %>% 
+  summarise(., accumulated_loss = sum(amountpaidtotal)) %>% 
+  mutate(., yearofloss = 1990)
+Orig_Accumulate_DF = Orig_Accumulate_DF[0,]
+
+for (i in min(filter.raw.df$yearofloss):max(filter.raw.df$yearofloss)) {
+  intermediate = filter.raw.df %>% 
+    filter(., yearofloss <= i, state != "", !is.na(state), !is.na(yearofloss), !is.na(amountpaidtotal)) %>%
+    group_by(., state) %>% 
+    summarise(., accumulated_loss = sum(amountpaidtotal)) %>% 
+    mutate(., yearofloss = i)
+  
+  Orig_Accumulate_DF = rbind(Orig_Accumulate_DF, intermediate)
+}
 
 #assembling the accumulated dataframe from 0 to 1 for each state
-Accumulate_DF_0_to_1 = Accumulate_DF[0,]
+Accumulate_DF_0_to_1 = Orig_Accumulate_DF[0,]
 for (i in 1:length(State_Names)) {
-  intermediate = Accumulate_DF %>% 
-    filter(., state == State_Names[[i]][i]) %>% 
+  intermediate = Orig_Accumulate_DF %>% 
+    filter(., state == State_Names[i]) %>% 
     mutate(., standardized_accumulation = accumulated_loss/max(accumulated_loss))
   Accumulate_DF_0_to_1 = rbind(Accumulate_DF_0_to_1, intermediate)
 }
@@ -241,4 +242,3 @@ save(State_Names,
      file = "./FEMA_Flood_Claims/processed_data.Rdata")
 
 rm(list = ls())
-?ylim

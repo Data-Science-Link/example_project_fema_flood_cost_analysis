@@ -147,7 +147,7 @@ shinyServer(function(input, output) {
             major_storms %>% 
             ggplot(., aes(x = Year, y = Amount_PD, size = Amount_PD, text = paste0(Event, "<br>", Amount_PD), group = 1)) +
             geom_point() +
-            labs(title = 'Paid Losses of Major Storms', x = '', y = '$') + 
+            labs(title = 'FEMA Flood Claims for Major Storms', x = '', y = '$') + 
             scale_y_continuous(limits = c(0,2e+10), labels = scales::comma) +
             theme_bw() + 
             theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
@@ -181,7 +181,7 @@ shinyServer(function(input, output) {
                   ggplot(.) +
                   geom_point(aes(x = yearofloss, y = accumulated_loss)) + 
                   geom_smooth(colour = 'blue', size = 0.5, aes(x = yearofloss, y = accumulated_loss), method="lm", formula= (y ~ x), se=FALSE, linetype = 1) + 
-                  labs(title = 'Linear Regression of Accumulated Loss', x = '', y = '$') + 
+                  labs(title = 'Accumulated Loss Regression Analysis', x = 'Years Since Program Inception', y = '$') + 
                   scale_y_continuous(labels = scales::comma) +
                   theme_bw() + 
                   theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
@@ -197,7 +197,7 @@ shinyServer(function(input, output) {
                   ggplot(.) +
                   geom_point(aes(x = yearofloss, y = accumulated_loss)) + 
                   geom_line(colour = 'red', linetype = 1, aes(x = yearofloss, y = alpha*exp( as.numeric(beta) * yearofloss) + theta)) +
-                  labs(title = 'Linear Regression of Accumulated Loss', x = '', y = '$') + 
+                  labs(title = 'Accumulated Loss Regression Analysis', x = 'Years Since Program Inception', y = '$') + 
                   scale_y_continuous(labels = scales::comma) +
                   theme_bw() + 
                   theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
@@ -213,7 +213,7 @@ shinyServer(function(input, output) {
                   ggplot(.) +
                   geom_point(aes(x = yearofloss, y = accumulated_loss)) + 
                   geom_smooth(colour = 'green', size = 0.5, aes(x = yearofloss, y = accumulated_loss), method="lm", formula= (y ~ x + I(x^2) + I(x^3)), se=FALSE, linetype = 1) + 
-                  labs(title = 'Linear Regression of Accumulated Loss', x = '', y = '$') + 
+                  labs(title = 'Accumulated Loss Regression Analysis', x = 'Years Since Program Inception', y = '$') + 
                   scale_y_continuous(labels = scales::comma) +
                   theme_bw() + 
                   theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
@@ -230,12 +230,25 @@ shinyServer(function(input, output) {
               summarise(., accumulated_loss = sum(accumulated_loss)/69751802599) %>% #total paid throughout program
               ggplot(., aes(x = yearofloss, y = accumulated_loss)) +
               geom_line() + 
-              labs(title = 'Standardized Accumulated Loss for Nation', x = '', y = '($) / (Total $)') + 
+              labs(title = 'Standardized Accumulated Loss for the Nation', x = '', y = '($) / (Total $)') + 
               scale_y_continuous(labels = scales::comma) +
               theme_bw() + 
               theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
                     axis.text=element_text(size = axis_text_sz, face = 'bold'),
                     axis.title=element_text(size = axis_title_sz))
+          ggplotly()
+      })
+      
+      output$GG_Standardized_Accumulation_State<-renderPlotly({
+          Accumulate_DF_0_to_1 %>% 
+              ggplot(., aes(x = yearofloss, y = standardized_accumulation, color = state)) +
+              geom_line(show.legend = FALSE) +
+              labs(title = 'Standardized Accumulated Loss for All States', x = '', y = '($) / (Total $)') +
+              theme_bw() + 
+              theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
+                    axis.text=element_text(size = axis_text_sz),
+                    axis.title=element_text(size = axis_title_sz,face="bold"),
+                    legend.position='none')
           ggplotly()
       })
       

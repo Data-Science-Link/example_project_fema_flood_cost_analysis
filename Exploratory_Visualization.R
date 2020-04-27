@@ -202,15 +202,15 @@ GG_Accumulation_for_Nation_Geom_Area_Flood_Zone =
 GG_Accumulation_for_Nation_Geom_Area_Flood_Zone
 
 # Creating Standardized plot for accumulation for all 50 states to see if line type (log, linear, exponential) is categorical
-GG_Standardized_Accumulation = 
-  str(unlist(Accumulate_DF_0_to_1))%>% 
+GG_Standardized_Accumulation_State = 
+  Accumulate_DF_0_to_1 %>% 
   ggplot(., aes(x = yearofloss, y = standardized_accumulation, color = state)) +
   geom_line(show.legend = FALSE) +
   theme_bw() + 
   theme(plot.title = element_text(size = title_text_sz, hjust = 0.5),
         axis.text=element_text(size = axis_text_sz),
         axis.title=element_text(size = axis_title_sz,face="bold"))
-GG_Standardized_Accumulation
+GG_Standardized_Accumulation_State
 
 # Regular version
 Total_State_Summed_Claims = 

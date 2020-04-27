@@ -22,10 +22,16 @@ dashboardPage(
                         tabBox(
                             title = "", id = "tabset1", width = '100%', 
                             
-                            tabPanel(h3("Start Here"), 
+                            tabPanel(h3("Start Here"),
+                                     fluidRow(img(src='Landscape_1.jpg', align = "left", height = '250px', width = '100%')),
+                                     br(),
                                      h4(START_HERE_TEXT_pt1),
                                      br(),
                                      h4(START_HERE_TEXT_pt2),
+                                     br(),
+                                     h4(START_HERE_TEXT_pt3),
+                                     br(),
+                                     plotlyOutput('GG_Amount_PD'),
                                      status = 'success'
                                      ),
                             
@@ -46,7 +52,7 @@ dashboardPage(
                             tabPanel(h3("Our States"),
                                      fluidRow(
                                          column(2, sliderInput("state_slider", sep = "", label = h3("Date Range"), min = 1970, max = 2019, value = c(1970,2019))),
-                                         column(2, radioButtons("state_radio", label = h3("Filter"), choices = list("Flood Zone" = 0), selected = 0)),
+                                         column(1, radioButtons("state_radio", label = h3("Filter"), choices = list("Flood Zone" = 0), selected = 0)),
                                          column(2, selectizeInput("selected", "State Acronym", State_Names))
                                      ),
                                      h4(OUR_STATES_TEXT_pt1),
@@ -64,10 +70,7 @@ dashboardPage(
                                      h4(OUR_STORY_pt2),
                                      br(),
                                      h4(OUR_STORY_pt3),
-                                     fluidRow(
-                                         column(6, plotlyOutput('GG_Amount_PD')),
-                                         column(6,plotlyOutput('GG_Avg_PD_Losses'))
-                                     ),
+                                     plotlyOutput('GG_Avg_PD_Losses'),
                                      br(),
                                      h4(OUR_STORY_pt4),
                                      fluidRow(
@@ -79,6 +82,7 @@ dashboardPage(
                                      plotlyOutput('GG_Accumulation_for_Nation_Standardized'),
                                      br(),
                                      h4(OUR_STORY_pt6),
+                                     plotlyOutput('GG_Standardized_Accumulation_State'),
                                      br(),
                                      h4(OUR_STORY_pt7),
                                      br(),
