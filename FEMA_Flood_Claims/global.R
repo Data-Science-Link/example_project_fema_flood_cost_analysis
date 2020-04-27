@@ -20,7 +20,13 @@ load(file = "processed_data.Rdata")
 START_HERE_TEXT_pt1 = 
   "The National Flood Insurance Program (NFIP) was created in 1968 to enforce responsible building practices (i.e. not building your home in the middle of a river) and to alleviate the financial woes of Americans after disastrous flooding events. In short, FEMA mandates that people who live close to rivers and streams buy flood insurance. Insured property owners are reimbursed according to the severity of the flood damage and according to their policy coverage."
 START_HERE_TEXT_pt2 = 
-  "Since this program was created, there have been 70 billion dollars paid in claims (according to the redacted claims dataset ). There are three primary insights gleamed from this dashboard. 1. Residents of the south, in particular Louisiana and Texas, are responsible for the majority of flood insurance claims. 2. The majority of money paid out for FEMA claims is tied to modern mega-storm catastrophes like Hurricanes Katrina, Harvey, and Sandy. 3. The average flood claim expense has increased over the years." 
+  "Since this program was created, there have been 70 billion dollars paid in claims. There are three primary insights gleamed from this dashboard:" 
+START_HERE_TEXT_pt2_1 = 
+  "1. Residents of the south, in particular Louisiana and Texas, are responsible for the majority of flood insurance claims."
+START_HERE_TEXT_pt2_2 = 
+  "2. The majority of money paid out for FEMA claims is tied to modern mega-storm catastrophes like Hurricanes Katrina, Harvey, and Superstorm Sandy."
+START_HERE_TEXT_pt2_3 = 
+"3. The average flood claim expense has increased over the years." 
 START_HERE_TEXT_pt3 = 
 'This application has been built to effectively convey the spatial and temporal trends of flood insurance claims. This dashboard can help NFIP managers diagnose leaks in the financial sustainability of their program.'
 OUR_NATION_TEXT_pt1 = 

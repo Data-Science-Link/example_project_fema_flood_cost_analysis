@@ -267,6 +267,10 @@ shinyServer(function(input, output) {
           datatable(major_storms, rownames=FALSE)
       })
       
+      output$text_blurb <- renderText({
+          paste(START_HERE_TEXT_pt2_1, START_HERE_TEXT_pt2_2, START_HERE_TEXT_pt2_3, sep="<br>")
+      })
+      
     }
 )
 

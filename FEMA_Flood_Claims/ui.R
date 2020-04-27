@@ -23,11 +23,12 @@ dashboardPage(
                             title = "", id = "tabset1", width = '100%', 
                             
                             tabPanel(h3("Start Here"),
-                                     fluidRow(img(src='Landscape_1.jpg', align = "left", height = '250px', width = '100%')),
+                                     fluidRow(img(src='Landscape_1.jpg', align = "left", height = '200px', width = '100%')),
                                      br(),
                                      h4(START_HERE_TEXT_pt1),
                                      br(),
                                      h4(START_HERE_TEXT_pt2),
+                                     htmlOutput("text_blurb"),
                                      br(),
                                      h4(START_HERE_TEXT_pt3),
                                      br(),
