@@ -252,6 +252,21 @@ shinyServer(function(input, output) {
           ggplotly()
       })
       
+      # show data using DataTable
+      output$table_cleaned <- DT::renderDataTable({
+          datatable(filter.raw.df, rownames=FALSE)
+      })
+      
+      # show data using DataTable
+      output$table_manipulated <- DT::renderDataTable({
+          datatable(Accumulate_DF, rownames=FALSE)
+      })
+      
+      # show data using DataTable
+      output$table_major_storms <- DT::renderDataTable({
+          datatable(major_storms, rownames=FALSE)
+      })
+      
     }
 )
 

@@ -98,10 +98,18 @@ dashboardPage(
                             title = "",
                             # The id lets us use input$tabset1 on the server to find the current tab
                             id = "tabset1", width = '100%',
-                            tabPanel(h3("Raw"), "Tab content 1"),
-                            tabPanel(h3("Filtered"), "Tab content 2"),
-                            tabPanel(h3("Manipulated"), "Tab content 3"),
-                            tabPanel(h3("Summed"), "Tab content 4")
+                            tabPanel(h3("Cleaned"), 
+                                     h4(),
+                                     box(DT::dataTableOutput("table_cleaned"), width = 12)),
+                            tabPanel(h3("Manipulated"), 
+                                     h4(),
+                                     box(DT::dataTableOutput("table_manipulated"), width = 12)),
+                            tabPanel(h3("Major Storms"), h4('FEMA Designated Major Storms:'),
+                                     tags$a(href="https://www.fema.gov/significant-flood-events", h4("https://www.fema.gov/significant-flood-events")),
+                                     box(DT::dataTableOutput("table_major_storms"), width = 12)),
+                            tabPanel(h3("Raw"), 
+                                     h4('FIMA NFIP Redacted Claims Data Set Download Link (Too Large to Host Online):'),
+                                     tags$a(href="https://www.fema.gov/media-library/assets/documents/180374", h4("https://www.fema.gov/media-library/assets/documents/180374")))
                             )
                     )
             )
